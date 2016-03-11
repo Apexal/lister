@@ -2,7 +2,9 @@
   <div class="row">
     <h4 id="date">
       <button class="u-pull-left" id="prev-day">&lt;</button>
-      <button class="u-pull-left {{#if dateIs 'today'}}button-primary{{/if}}" id="today">Today</button>
+      {{#if isNotWeekend}}
+        <button class="u-pull-left {{#if dateIs 'today'}}button-primary{{/if}}" id="today">Today</button>
+      {{/if}}
       <span>{{currentDate}}'s Work</span>
       <button class="u-pull-right" id="next-day">&gt;</button>
       <button class="u-pull-right {{#if dateIs 'tomorrow'}}button-primary{{/if}}" id="tom"><b>Tom</b></button>

@@ -3,12 +3,12 @@ Meteor.subscribe("assignments");
 if (!Session.get('date')) {
   Session.set('date', moment().startOf('day').toDate());
 }
-document.title = "Lister - "+moment(Session.get('date')).format("dddd, MM Do YY");
+document.title = "Lister - " + moment(Session.get('date')).format("dddd, MM Do YY");
 
 var updateDate = function() {
   var newDate = moment(Session.get('date')).format("ddd, MMM Do");
-  document.title = "Lister - "+newDate;
-  history.pushState({}, "Lister - "+newDate, moment(Session.get('date')).format("YYYY-MM-DD"));
+  document.title = "Lister - " + newDate;
+  history.pushState({}, "Lister - " + newDate, moment(Session.get('date')).format("YYYY-MM-DD"));
 }
 
 Template.day.helpers({
@@ -16,48 +16,90 @@ Template.day.helpers({
     return moment(Session.get('date')).format("dddd, MMMM Do YYYY");
   },
   incompletedCount: function() {
-    return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate(), completed: false}).count();
+    return Assignments.find({
+      owner: Meteor.userId(),
+      date: moment(Session.get('date')).toDate(),
+      completed: false
+    }).count();
   },
   completedCount: function() {
-    return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate(), completed: true}).count();
+    return Assignments.find({
+      owner: Meteor.userId(),
+      date: moment(Session.get('date')).toDate(),
+      completed: true
+    }).count();
   },
   totalCount: function() {
-    return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate()}).count();
+    return Assignments.find({
+      owner: Meteor.userId(),
+      date: moment(Session.get('date')).toDate()
+    }).count();
   },
   subjectHasHW: function(subject) {
-    return (Assignments.find({owner: Meteor.userId(), subject: subject, date: moment(Session.get('date')).toDate()}).count() > 0);
+    return (Assignments.find({
+      owner: Meteor.userId(),
+      subject: subject,
+      date: moment(Session.get('date')).toDate()
+    }).count() > 0);
   },
   forSubject: function(subject) {
-    return Assignments.find({owner: Meteor.userId(), subject: subject, date: moment(Session.get('date')).toDate()});
+    return Assignments.find({
+      owner: Meteor.userId(),
+      subject: subject,
+      date: moment(Session.get('date')).toDate()
+    });
+  },
+  isNotWeekend: function() {
+    return (moment().weekday() !== 0 && moment().weekday() !== 6);
   },
   subjects: function() {
     return subjects;
   },
   dateIs: function(is) {
-    if(is == "today"){
+    if (is == "today") {
       console.log(is);
       return moment(Session.get('date')).isSame(moment(), "day");
-    }else if(is == "tomorrow"){
-      return moment(Session.get('date')).isSame(moment().add(1, "days"), "day");
+    } else if (is == "tomorrow") {
+      var tom = moment().add(1, "days");
+      while (tom.weekday() == 0 || tom.weekday() == 6) {
+        tom.add(1, "day");
+      }
+      return moment(Session.get('date')).isSame(tom, "day");
     }
   }
 });
 
 Template.day.events({
-  "click #prev-day": function(event, template){
-     Session.set('date', moment(Session.get('date')).subtract(1, 'days').toDate());
-     updateDate();
+  "click #prev-day": function(event, template) {
+    var now = moment(Session.get('date')).subtract(1, "days");
+
+    while (now.weekday() == 0 || now.weekday() == 6) {
+      now.subtract(1, "day");
+    }
+    Session.set('date', now.toDate());
+    updateDate();
   },
-  "click #next-day": function(event, template){
-     Session.set('date', moment(Session.get('date')).add(1, 'days').toDate());
-     updateDate();
+  "click #next-day": function(event, template) {
+    var now = moment(Session.get('date')).add(1, "days");
+
+    while (now.weekday() == 0 || now.weekday() == 6) {
+      now.add(1, "day");
+    }
+
+    Session.set('date', now.toDate());
+    updateDate();
   },
   "click #today": function() {
     Session.set('date', moment().startOf('day').toDate());
     updateDate();
   },
   "click #tom": function() {
-    Session.set('date', moment().add(1, 'days').startOf('day').toDate());
+    var now = moment().add(1, "days");
+
+    while (now.weekday() == 0 || now.weekday() == 6) {
+      now.add(1, "day");
+    }
+    Session.set('date', now.startOf('day').toDate());
     updateDate();
   }
 });
@@ -69,7 +111,7 @@ Template.addAssignment.helpers({
 });
 
 Template.addAssignment.events({
-  "submit .add-assignment": function(event, template){
+  "submit .add-assignment": function(event, template) {
     event.preventDefault();
 
     var date = moment(Session.get('date')).toDate();
@@ -89,11 +131,11 @@ Template.assignment.helpers({
 });
 
 Template.assignment.events({
-  "click .toggle-completed": function(event, template){
-     Meteor.call("setCompleted", this._id, !this.completed);
+  "click .toggle-completed": function(event, template) {
+    Meteor.call("setCompleted", this._id, !this.completed);
   },
   "click .remove-assignment": function(event, template) {
-    if(confirm("Remove this assignment?"))
+    if (confirm("Remove this assignment?"))
       Meteor.call("deleteAssignment", this._id);
   }
 });
