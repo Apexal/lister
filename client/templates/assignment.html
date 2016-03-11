@@ -1,0 +1,5 @@
+<template name="assignment">
+  <input type="checkbox" class="toggle-completed" checked={{completed}}>
+  <span class="assignment {{#if completed}}completed{{/if}}">{{subjects subject}} - {{description}}</span>
+  <span class="remove-assignment">x</span>
+</template>

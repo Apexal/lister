@@ -1,0 +1,11 @@
+<template name="main">  
+  <main>
+    <h1>Welcome to Lister!</h1>
+
+    {{> loginButtons}}
+
+    {{#if currentUser}}
+      {{> day}}
+    {{/if}}
+  </main>
+</template>

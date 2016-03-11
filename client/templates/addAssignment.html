@@ -1,0 +1,11 @@
+<template name="addAssignment">
+  <form class="add-assignment">
+    <select name="subject">
+      {{#each s in subjects}}
+        <option>{{s}}</option>
+      {{/each}}
+    </select>
+    <input type="text" name="description" placeholder="Assignment description.">
+    <input type="submit" value="Add">
+  </form>
+</template>

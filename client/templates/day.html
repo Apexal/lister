@@ -1,0 +1,17 @@
+<template name="day">
+  <h3 id="date">
+    <button id="prev-day">&lt;</button>
+    <span>{{currentDate}}'s Work</span>
+    <button id="next-day">&gt;</button>
+  </h3>
+
+  <b>{{completedCount}} out of {{assignments.count}} completed</b> {{> addAssignment}}
+
+  <ul>
+    {{#each assignments}}
+    <li>{{> assignment}}</li>
+
+    {{else}}
+    <i>No assignments!</i> {{/each}}
+  </ul>
+</template>
