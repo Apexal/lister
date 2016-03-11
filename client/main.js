@@ -16,15 +16,12 @@ Template.day.helpers({
     return moment(Session.get('date')).format("dddd, MMMM Do YYYY");
   },
   incompletedCount: function() {
-    //Session.get('date')
     return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate(), completed: false}).count();
   },
   completedCount: function() {
-    //Session.get('date')
     return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate(), completed: true}).count();
   },
   assignments: function() {
-    //Session.get('date')
     return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate()});
   }
 });

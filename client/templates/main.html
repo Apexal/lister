@@ -1,11 +1,17 @@
-<template name="main">  
+<template name="main">
   <main>
-    <h1>Welcome to Lister!</h1>
+    <div class="container">
+      <div class="row">
+        <h1>Welcome to Lister!</h1>
+        {{> loginButtons}}
+        <hr>
+      </div>
 
-    {{> loginButtons}}
-
-    {{#if currentUser}}
-      {{> day}}
-    {{/if}}
+      <div class="row">
+        {{#if currentUser}}
+          {{> day}}
+        {{/if}}
+      </div>
+    </div>
   </main>
 </template>
