@@ -21,8 +21,29 @@ main {
 
 #prev-day {
   float: left;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 #next-day {
   float:right;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.subject {
+  font-size: 1.2em;
+}
+
+#description {
+  /*max-width: 80%;*/
+  width: 70%;
+}
+
+.toggle-completed {
+  margin-bottom: 0;
+}
+
+.homework li {
+  margin-bottom: 5px;
 }

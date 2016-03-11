@@ -1,17 +1,32 @@
 <template name="day">
-  <h4 id="date">
-    <button id="prev-day">&lt;</button>
-    <span>{{currentDate}}'s Work</span>
-    <button id="next-day">&gt;</button>
-  </h4>
+  <div class="row">
+    <h4 id="date">
+      <button id="prev-day">&lt;</button>
+      <span>{{currentDate}}'s Work</span>
+      <button id="next-day">&gt;</button>
+    </h4>
+  </div>
 
-  <b id="status">{{completedCount}} out of {{assignments.count}} completed</b> {{> addAssignment}}
+  <div class="row">
+    <b id="status">{{completedCount}} out of {{totalCount}} completed</b>
+    {{> addAssignment}}
+    <hr>
+  </div>
 
-  <ul>
-    {{#each assignments}}
-    <li>{{> assignment}}</li>
+  <div class="row homework">
 
-    {{else}}
-    <i>No assignments!</i> {{/each}}
-  </ul>
+      {{#each s in subjects}}
+        {{#if subjectHasHW @index}}
+          <div class="four columns">
+            <b class="subject">{{s}}</b>
+            <ol>
+              {{#each forSubject @index}}
+                <li>{{> assignment}}</li>
+              {{/each}}
+            </ol>
+          </div>
+        {{/if}}
+      {{/each}}
+
+  </div>
 </template>

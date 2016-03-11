@@ -21,8 +21,17 @@ Template.day.helpers({
   completedCount: function() {
     return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate(), completed: true}).count();
   },
-  assignments: function() {
-    return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate()});
+  totalCount: function() {
+    return Assignments.find({owner: Meteor.userId(), date: moment(Session.get('date')).toDate()}).count();
+  },
+  subjectHasHW: function(subject) {
+    return (Assignments.find({owner: Meteor.userId(), subject: subject, date: moment(Session.get('date')).toDate()}).count() > 0);
+  },
+  forSubject: function(subject) {
+    return Assignments.find({owner: Meteor.userId(), subject: subject, date: moment(Session.get('date')).toDate()});
+  },
+  subjects: function() {
+    return subjects;
   }
 });
 
