@@ -1,3 +1,5 @@
+Meteor.subscribe("assignments");
+
 if (!Session.get('date')) {
   Session.set('date', moment().startOf('day').toDate());
 }
@@ -48,18 +50,11 @@ Template.addAssignment.events({
   "submit .add-assignment": function(event, template){
     event.preventDefault();
 
+    var date = moment(Session.get('date')).toDate();
     var subject = subjects.indexOf(event.target.subject.value);
     var description = event.target.description.value;
-    var date = moment(Session.get('date')).toDate();
 
-    Assignments.insert({
-      owner: Meteor.userId(),
-      date: date,
-      subject: subject,
-      description: description,
-      completed: false,
-      addedAt: new Date(),
-    });
+    Meteor.call("addAssignment", date, subject, description);
 
     event.target.description.value = "";
   }
@@ -73,12 +68,10 @@ Template.assignment.helpers({
 
 Template.assignment.events({
   "click .toggle-completed": function(event, template){
-     Assignments.update(this._id, {
-       $set: {completed: !this.completed}
-     });
+     Meteor.call("setCompleted", this._id, !this.completed);
   },
   "click .remove-assignment": function(event, template) {
     if(confirm("Remove this assignment?"))
-      Assignments.remove(this._id);
+      Meteor.call("deleteAssignment", this._id);
   }
 });
