@@ -43,6 +43,14 @@ Template.day.events({
   "click #next-day": function(event, template){
      Session.set('date', moment(Session.get('date')).add(1, 'days').toDate());
      updateDate();
+  },
+  "click #today": function() {
+    Session.set('date', moment().startOf('day').toDate());
+    updateDate();
+  },
+  "click #tom": function() {
+    Session.set('date', moment().add(1, 'days').startOf('day').toDate());
+    updateDate();
   }
 });
 

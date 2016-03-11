@@ -19,14 +19,7 @@ main {
   user-select: none;
 }
 
-#prev-day {
-  float: left;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-#next-day {
-  float:right;
+#date button {
   padding-left: 15px;
   padding-right: 15px;
 }
