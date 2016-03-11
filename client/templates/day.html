@@ -2,10 +2,10 @@
   <div class="row">
     <h4 id="date">
       <button class="u-pull-left" id="prev-day">&lt;</button>
-      <button class="u-pull-left" id="today">Today</button>
+      <button class="u-pull-left {{#if dateIs 'today'}}button-primary{{/if}}" id="today">Today</button>
       <span>{{currentDate}}'s Work</span>
       <button class="u-pull-right" id="next-day">&gt;</button>
-      <button class="u-pull-right" id="tom"><b>Tom</b></button>
+      <button class="u-pull-right {{#if dateIs 'tomorrow'}}button-primary{{/if}}" id="tom"><b>Tom</b></button>
     </h4>
   </div>
 
@@ -16,7 +16,6 @@
   </div>
 
   <div class="row homework">
-
       {{#each s in subjects}}
         {{#if subjectHasHW @index}}
           <div class="four columns">

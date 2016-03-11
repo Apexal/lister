@@ -32,6 +32,14 @@ Template.day.helpers({
   },
   subjects: function() {
     return subjects;
+  },
+  dateIs: function(is) {
+    if(is == "today"){
+      console.log(is);
+      return moment(Session.get('date')).isSame(moment(), "day");
+    }else if(is == "tomorrow"){
+      return moment(Session.get('date')).isSame(moment().add(1, "days"), "day");
+    }
   }
 });
 
