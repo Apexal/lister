@@ -3,9 +3,8 @@ Meteor.subscribe("assignments");
 if (!Session.get('date')) {
   Session.set('date', moment().startOf('day').toDate());
 }
-document.title = "Lister - " + moment(Session.get('date')).format("dddd, MM Do YY");
 
-var updateDate = function() {
+updateDate = function() {
   var newDate = moment(Session.get('date')).format("ddd, MMM Do");
   document.title = "Lister - " + newDate;
   history.pushState({}, "Lister - " + newDate, moment(Session.get('date')).format("YYYY-MM-DD"));
