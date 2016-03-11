@@ -14,22 +14,20 @@
   <div class="row">
     <b id="status">{{completedCount}} out of {{totalCount}} completed</b>
     {{> addAssignment}}
-    <hr>
   </div>
 
   <div class="row homework">
-      {{#each s in subjects}}
-        {{#if subjectHasHW @index}}
-          <div class="four columns">
-            <b class="subject">{{s}}</b>
-            <ol>
-              {{#each forSubject @index}}
-                <li>{{> assignment}}</li>
-              {{/each}}
-            </ol>
-          </div>
-        {{/if}}
-      {{/each}}
-
+    {{#each s in subjects}}
+      {{#if subjectHasHW @index}}
+        <div class="four columns">
+          <b class="subject">{{s}}</b>
+          <ol>
+            {{#each forSubject @index}}
+              <li>{{> assignment}}</li>
+            {{/each}}
+          </ol>
+        </div>
+      {{/if}}
+    {{/each}}
   </div>
 </template>

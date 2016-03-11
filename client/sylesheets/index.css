@@ -40,3 +40,11 @@ main {
 .homework li {
   margin-bottom: 5px;
 }
+
+.footer {
+  color: grey;
+}
+
+.footer hr {
+  margin-bottom: 10px;
+}
