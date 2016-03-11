@@ -34,6 +34,12 @@ Template.day.helpers({
       date: moment(Session.get('date')).toDate()
     }).count();
   },
+  noHW: function() {
+    return (Assignments.find({
+      owner: Meteor.userId(),
+      date: moment(Session.get('date')).toDate()
+    }).count() == 0);
+  },
   subjectHasHW: function(subject) {
     return (Assignments.find({
       owner: Meteor.userId(),
