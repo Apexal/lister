@@ -8,12 +8,13 @@ updateDate = function() {
   var newDate = moment(Session.get('date')).format("ddd, MMM Do");
   document.title = "Lister - " + newDate;
   history.pushState({}, "Lister - " + newDate, moment(Session.get('date')).format("YYYY-MM-DD"));
-  $('#calendar').fullCalendar('refetchEvents');
+  //$('#calendar').fullCalendar('refetchEvents');
   $('#calendar').fullCalendar( 'gotoDate', moment(Session.get('date')));
 }
 
 Template.day.helpers({
   currentDate: function() {
+    $('#calendar').fullCalendar('refetchEvents');
     return moment(Session.get('date')).format("dddd, MMMM Do YYYY");
   },
   incompletedCount: function() {
@@ -164,7 +165,11 @@ Template.calendar.helpers({
         updateDate();
       },
       events: function(start, end, timezone, callback) {
-        var events = [];
+        var events = [{
+          start: start,
+          allDay: true,
+          title: "test"
+        }];
         var days = {};
 
         Assignments.find({
@@ -192,7 +197,6 @@ Template.calendar.helpers({
         }
 
         callback(events);
-        return events;
       }
     };
   }

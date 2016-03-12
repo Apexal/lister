@@ -1,11 +1,11 @@
 <template name="addAssignment">
   <form class="add-assignment">
-    <select name="subject">
+    <select name="subject" required="true">
       {{#each s in subjects}}
         <option>{{s}}</option>
       {{/each}}
     </select>
-    <input type="text" id="description" name="description" placeholder="Assignment description.">
+    <input type="text" id="description" name="description" placeholder="Assignment description." required="true">
     <input type="submit" value="Add">
   </form>
 </template>
