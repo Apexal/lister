@@ -65,7 +65,6 @@ Template.day.helpers({
   },
   dateIs: function(is) {
     if (is == "today") {
-      console.log(is);
       return moment(Session.get('date')).isSame(moment(), "day");
     } else if (is == "tomorrow") {
       var tom = moment().add(1, "days");
@@ -165,18 +164,13 @@ Template.calendar.helpers({
         updateDate();
       },
       events: function(start, end, timezone, callback) {
-        var events = [{
-          start: start,
-          allDay: true,
-          title: "test"
-        }];
+        var events = [];
         var days = {};
 
         Assignments.find({
           owner: Meteor.userId(),
           date: {$gte: start.toDate(), $lte: end.toDate()}
         }).forEach(function(a) {
-          console.log(a);
           if(!days[moment(a.date)])
             days[moment(a.date)] = {};
 
