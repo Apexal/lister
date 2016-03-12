@@ -157,10 +157,11 @@ Template.calendar.helpers({
     return {
       id: "calendar",
       weekends: false,
+      timezone: 'America/New_York',
       defaultView: 'month',
       dayClick: function(date, jsEvent, view) {
-        // I don't know why it's one day behind
-        Session.set('date', date.add(1, 'days').toDate());
+        // Something with timezones
+        Session.set('date', date.add(4, 'hours').toDate());
         updateDate();
       },
       events: function(start, end, timezone, callback) {
@@ -171,6 +172,7 @@ Template.calendar.helpers({
           owner: Meteor.userId(),
           date: {$gte: start.toDate(), $lte: end.toDate()}
         }).forEach(function(a) {
+          a.date = moment(a.date).add(4, 'hours').toDate();
           if(!days[moment(a.date)])
             days[moment(a.date)] = {};
 
