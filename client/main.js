@@ -14,7 +14,6 @@ updateDate = function() {
 
 Template.day.helpers({
   currentDate: function() {
-    $('#calendar').fullCalendar('refetchEvents');
     return moment(Session.get('date')).format("dddd, MMMM Do YYYY");
   },
   incompletedCount: function() {
@@ -157,12 +156,11 @@ Template.calendar.helpers({
     return {
       id: "calendar",
       weekends: false,
-      timezone: 'America/New_York',
+      timezone: "local",
       defaultView: 'month',
       dayClick: function(date, jsEvent, view) {
         // Something with timezones
-        Session.set('date', date.add(4, 'hours').toDate());
-        updateDate();
+        Router.go("/"+date.format("YYYY-MM-DD"))
       },
       events: function(start, end, timezone, callback) {
         var events = [];
@@ -172,7 +170,7 @@ Template.calendar.helpers({
           owner: Meteor.userId(),
           date: {$gte: start.toDate(), $lte: end.toDate()}
         }).forEach(function(a) {
-          a.date = moment(a.date).add(4, 'hours').toDate();
+          a.date = moment(a.date).toDate();
           if(!days[moment(a.date)])
             days[moment(a.date)] = {};
 
@@ -197,3 +195,11 @@ Template.calendar.helpers({
     };
   }
 });
+
+var updateCalendar = function(){
+  $('#calendar').fullCalendar('refetchEvents');
+}
+setTimeout(updateCalendar, 1000);
+setTimeout(updateCalendar, 2000);
+setTimeout(updateCalendar, 4000);
+setTimeout(updateCalendar, 6000);
