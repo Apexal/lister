@@ -9,7 +9,7 @@ updateDate = function() {
   document.title = "Lister - " + newDate;
   history.pushState({}, "Lister - " + newDate, moment(Session.get('date')).format("YYYY-MM-DD"));
   //$('#calendar').fullCalendar('refetchEvents');
-  $('#calendar').fullCalendar( 'gotoDate', moment(Session.get('date')));
+  $('#calendar').fullCalendar('gotoDate', moment(Session.get('date')));
 }
 
 Template.day.helpers({
@@ -143,13 +143,12 @@ Template.assignment.events({
     $('#calendar').fullCalendar('refetchEvents');
   },
   "click .remove-assignment": function(event, template) {
-    if (confirm("Remove this assignment?")){
+    if (confirm("Remove this assignment?")) {
       Meteor.call("deleteAssignment", this._id);
       $('#calendar').fullCalendar('refetchEvents');
     }
   }
 });
-
 
 Template.calendar.helpers({
   options: function() {
@@ -160,7 +159,7 @@ Template.calendar.helpers({
       defaultView: 'month',
       dayClick: function(date, jsEvent, view) {
         // Something with timezones
-        Router.go("/"+date.format("YYYY-MM-DD"))
+        Router.go("/" + date.format("YYYY-MM-DD"))
       },
       events: function(start, end, timezone, callback) {
         var events = [];
@@ -168,13 +167,16 @@ Template.calendar.helpers({
 
         Assignments.find({
           owner: Meteor.userId(),
-          date: {$gte: start.toDate(), $lte: end.toDate()}
+          date: {
+            $gte: start.toDate(),
+            $lte: end.toDate()
+          }
         }).forEach(function(a) {
           a.date = moment(a.date).toDate();
-          if(!days[moment(a.date)])
+          if (!days[moment(a.date)])
             days[moment(a.date)] = {};
 
-          if(!days[moment(a.date)][a.subject])
+          if (!days[moment(a.date)][a.subject])
             days[moment(a.date)][a.subject] = [];
 
           days[moment(a.date)][a.subject].push(a);
@@ -185,7 +187,7 @@ Template.calendar.helpers({
             events.push({
               start: date,
               allDay: true,
-              title: days[date][sub].length+" "+subjects[sub]
+              title: days[date][sub].length + " " + subjects[sub]
             });
           }
         }
@@ -196,7 +198,7 @@ Template.calendar.helpers({
   }
 });
 
-var updateCalendar = function(){
+var updateCalendar = function() {
   $('#calendar').fullCalendar('refetchEvents');
 }
 setTimeout(updateCalendar, 1000);
