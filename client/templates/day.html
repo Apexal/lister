@@ -16,11 +16,11 @@
     {{> addAssignment}}
   </div>
 
-  <div class="row homework">
+  <div class="homework">
     {{#each s in subjects}}
       {{#if subjectHasHW @index}}
         <div class="six columns">
-          <b class="subject">{{s}}</b>
+          <b id="{{s}}" class="subject">{{s}}</b>
           <ol class="hwlist">
             {{#each forSubject @index}}
               <li>{{> assignment}}</li>
