@@ -49,10 +49,14 @@ main {
   margin-bottom: 10px;
 }
 
-.row.homework {
+.homework {
   text-align: left;
 }
 
 .hwlist li {
   list-style: none;
+}
+
+.column, .columns {
+    margin-left: 0;
 }
