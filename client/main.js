@@ -184,8 +184,19 @@ Template.calendar.helpers({
 
         for (var date in days) {
           for (var sub in days[date]) {
+            var completedCount = days[date][sub].filter(function(i) {
+              return i.completed;
+            }).length;
+
+            var color = "red";
+            if(completedCount == days[date][sub]){
+              color = "green";
+            }else if (completedCount > 0 && completedCount < days[date][sub].length){
+              color = "#3a87ad";
+            }
             events.push({
               start: date,
+              color: color,
               allDay: true,
               title: days[date][sub].length + " " + subjects[sub]
             });
