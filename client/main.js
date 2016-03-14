@@ -189,7 +189,7 @@ Template.calendar.helpers({
             }).length;
 
             var color = "red";
-            if(completedCount == days[date][sub]){
+            if(completedCount == days[date][sub].length){
               color = "green";
             }else if (completedCount > 0 && completedCount < days[date][sub].length){
               color = "#3a87ad";

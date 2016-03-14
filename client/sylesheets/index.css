@@ -48,3 +48,11 @@ main {
 .footer hr {
   margin-bottom: 10px;
 }
+
+.row.homework {
+  text-align: left;
+}
+
+.hwlist li {
+  list-style: none;
+}
