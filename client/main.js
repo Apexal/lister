@@ -161,6 +161,9 @@ Template.calendar.helpers({
         // Something with timezones
         Router.go("/" + date.format("YYYY-MM-DD"))
       },
+      eventClick: function(event, jsEvent, view) {
+        Router.go("/" + event.start.format("YYYY-MM-DD"))
+      },
       events: function(start, end, timezone, callback) {
         var events = [];
         var days = {};
