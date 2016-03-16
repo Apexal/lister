@@ -1,4 +1,5 @@
 Meteor.subscribe("assignments");
+Meteor.subscribe("scheduleDays");
 
 if (!Session.get('date')) {
   Session.set('date', moment().startOf('day').toDate());
@@ -74,7 +75,9 @@ Template.day.helpers({
     }
   },
   sd: function() {
-    return scheduleDays[moment(Session.get('date')).format("YYYY-MM-DD")]
+    var day = ScheduleDays.findOne({date: Session.get('date')});
+    if(day)
+      return day.scheduleDay;
   }
 });
 
@@ -144,13 +147,24 @@ Template.calendar.helpers({
       timezone: "local",
       defaultView: 'month',
       dayClick: function(date, jsEvent, view) {
-        // Something with timezones
-        if(isSchoolDay(date.format("YYYY-MM-DD")))
+        var date = moment(date.format("YYYY-MM-DD"));
+        var day = ScheduleDays.findOne({date: date.toDate()});
+        if(day)
           Router.go("/" + date.format("YYYY-MM-DD"))
       },
       eventClick: function(event, jsEvent, view) {
-        if(isSchoolDay(event.start.format("YYYY-MM-DD")))
+        var date = moment(event.start.format("YYYY-MM-DD"));
+        var day = ScheduleDays.findOne({date: date.toDate()});
+        if(day)
           Router.go("/" + event.start.format("YYYY-MM-DD"))
+      },
+      dayRender: function (date, cell) {
+        date = moment(date.format("YYYY-MM-DD"));
+        var day = ScheduleDays.findOne({date: date.toDate()});
+        if(day)
+          cell.append('<i class="sd">'+day.scheduleDay+'-Day</i>');
+        else
+          cell.css("background-color", "#ededed");
       },
       events: function(start, end, timezone, callback) {
         var events = [];
