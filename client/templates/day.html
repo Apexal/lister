@@ -5,7 +5,7 @@
       {{#if isNotWeekend}}
         <button class="u-pull-left {{#if dateIs 'today'}}button-primary{{/if}}" id="today">Today</button>
       {{/if}}
-      <span>{{currentDate}}'s Work</span>
+      <span>{{currentDate}}'s ({{sd}}) Work</span>
       <button class="u-pull-right" id="next-day">&gt;</button>
       <button class="u-pull-right {{#if dateIs 'tomorrow'}}button-primary{{/if}}" id="tom"><b>Tom</b></button>
     </h4>

@@ -72,41 +72,27 @@ Template.day.helpers({
       }
       return moment(Session.get('date')).isSame(tom, "day");
     }
+  },
+  sd: function() {
+    return scheduleDays[moment(Session.get('date')).format("YYYY-MM-DD")]
   }
 });
 
 Template.day.events({
   "click #prev-day": function(event, template) {
     var now = moment(Session.get('date')).subtract(1, "days");
-
-    while (now.weekday() == 0 || now.weekday() == 6) {
-      now.subtract(1, "day");
-    }
-    Session.set('date', now.toDate());
-    updateDate();
+    Router.go("/" + now.format("YYYY-MM-DD")+"?dir=prev");
   },
   "click #next-day": function(event, template) {
     var now = moment(Session.get('date')).add(1, "days");
-
-    while (now.weekday() == 0 || now.weekday() == 6) {
-      now.add(1, "day");
-    }
-
-    Session.set('date', now.toDate());
-    updateDate();
+    Router.go("/" + now.format("YYYY-MM-DD")+"?dir=next");
   },
   "click #today": function() {
-    Session.set('date', moment().startOf('day').toDate());
-    updateDate();
+    Router.go("/" + moment().format("YYYY-MM-DD"));
   },
   "click #tom": function() {
     var now = moment().add(1, "days");
-
-    while (now.weekday() == 0 || now.weekday() == 6) {
-      now.add(1, "day");
-    }
-    Session.set('date', now.startOf('day').toDate());
-    updateDate();
+    Router.go("/" + now.format("YYYY-MM-DD"));
   }
 });
 
@@ -159,10 +145,12 @@ Template.calendar.helpers({
       defaultView: 'month',
       dayClick: function(date, jsEvent, view) {
         // Something with timezones
-        Router.go("/" + date.format("YYYY-MM-DD"))
+        if(isSchoolDay(date.format("YYYY-MM-DD")))
+          Router.go("/" + date.format("YYYY-MM-DD"))
       },
       eventClick: function(event, jsEvent, view) {
-        Router.go("/" + event.start.format("YYYY-MM-DD"))
+        if(isSchoolDay(event.start.format("YYYY-MM-DD")))
+          Router.go("/" + event.start.format("YYYY-MM-DD"))
       },
       events: function(start, end, timezone, callback) {
         var events = [];
